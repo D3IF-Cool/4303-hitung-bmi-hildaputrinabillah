@@ -4,14 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
     app:startDestination="@id/hitungFragment">
+
     <fragment
         android:id="@+id/hitungFragment"
         android:name="org.d3if2086.hitungbmi.ui.HitungFragment"
         android:label="HitungFragment"
-        tools:layout="@layout/fragment_hitung"/>
+        tools:layout="@layout/fragment_hitung">
+        <argument android:name="aboutFragment" />
+    </fragment>
     <action
         android:id="@+id/action_hitungFragment_to_saranFragment"
         app:destination="@id/saranFragment" />
+    <action
+        android:id="@+id/action_hitungFragment_to_aboutFragment"
+        app:destination="@id/aboutFragment" />
     <fragment
         android:id="@+id/saranFragment"
         android:name="org.d3if2086.hitungbmi.ui.SaranFragment"
@@ -21,4 +27,10 @@
             android:name="kategori"
             app:argType="org.d3if2086.hitungbmi.data.KategoriBmi" />
     </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="org.d3if2086.hitungbmi.ui.AboutFragment"
+        android:label="@string/tentang_aplikasi"
+        tools:layout="@layout/fragment_about"/>
+
 </navigation>
