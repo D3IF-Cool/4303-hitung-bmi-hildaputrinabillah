@@ -69,10 +69,6 @@ class HitungFragment : Fragment() {
                 getKategori(it.kategori))
             binding.buttonGroup.visibility = View.VISIBLE
         })
-        viewModel.data.observe(viewLifecycleOwner, {
-            if (it == null) return@observe
-            Log.d("HitungFragment", "Data tersimpan. ID = ${it.id}")
-        })
     }
     private fun hitungBmi() {
         val berat = binding.beratEditText.text.toString()
