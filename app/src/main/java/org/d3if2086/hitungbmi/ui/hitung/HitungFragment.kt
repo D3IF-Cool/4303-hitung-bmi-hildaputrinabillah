@@ -3,17 +3,21 @@ package org.d3if2086.hitungbmi.ui.hitung
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import org.d3if2086.hitungbmi.R
 import org.d3if2086.hitungbmi.data.KategoriBmi
 import org.d3if2086.hitungbmi.databinding.FragmentHitungBinding
+import org.d3if2086.hitungbmi.db.BmiDb
 import org.d3if2086.hitungbmi.ui.HitungFragmentDirections
 import org.d3if2086.hitungbmi.ui.HitungViewModel
+import org.d3if2086.hitungbmi.ui.HitungViewModelFactory
 
 class HitungFragment : Fragment() {
 
@@ -29,7 +33,11 @@ class HitungFragment : Fragment() {
         }
         return super.onOptionsItemSelected(item)
     }
-    private val viewModel: HitungViewModel by viewModels()
+    private val viewModel: HitungViewModel by lazy {
+        val db = BmiDb.getInstance(requireContext())
+        val factory = HitungViewModelFactory(db.dao)
+        ViewModelProvider(this, factory).get(HitungViewModel::class.java)
+    }
     private lateinit var binding: FragmentHitungBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -55,6 +63,10 @@ class HitungFragment : Fragment() {
             binding.kategoriTextView.text = getString(R.string.kategori_x,
                 getKategori(it.kategori))
             binding.buttonGroup.visibility = View.VISIBLE
+        })
+        viewModel.data.observe(viewLifecycleOwner, {
+            if (it == null) return@observe
+            Log.d("HitungFragment", "Data tersimpan. ID = ${it.id}")
         })
     }
     private fun hitungBmi() {
